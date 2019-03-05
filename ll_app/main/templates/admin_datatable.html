@@ -1,0 +1,80 @@
+{% extends 'index.html' %}
+<!-- START HERE -->
+{% block content %}
+  <!-- CONTENT -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+    <p class="mb-4">List of subscribers.</p>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Subscribers</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Join date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <th>Status</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Join date</th>
+              <th>Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+              {% for admin in admins %}
+                <tr>
+                  <td>
+                    {% if admin.is_active_status %}
+                      <span class="badge badge-success">Active <i class="fas fa-check"></i></span>
+                    {% else %}
+                      <span class="badge badge-warning">Inactive <i class="fas fa-bed bg-warning"></i></span>
+                    {% endif %}
+                  </td>
+                  <td>{{admin.first_name}} {{admin.last_name}}</td>
+                  <td>{{admin.email}}</td>
+                  <td>{{admin.join_date.strftime("%d-%b-%Y")}}</td>
+                  <td>
+                    <a href="{{url_for('adm.remove_admin_right', public_id = admin.public_id)}}" class="btn btn-sm btn-danger">
+                      <i class="fas fa-arrow-down"></i>
+                    </a>
+                    {% if admin.is_active_status %}
+                      <a href="{{url_for('adm.activate', public_id = admin.public_id)}}" class="btn btn-sm btn-warning">
+                        <i class="fas fa-pause"></i>
+                      </a>
+                    {% else %}
+                      <a href="{{url_for('adm.activate', public_id = admin.public_id)}}" class="btn btn-sm btn-info">
+                        <i class="fas fa-play"></i>
+                      </a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+{% endblock content %}
+<!-- SCRIPTS -->
+{% block script %}
+<!-- Page level plugins -->
+<script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- Page level custom scripts -->
+<script src="static/js/demo/datatables-demo.js"></script>
+{% endblock script %}

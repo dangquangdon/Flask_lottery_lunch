@@ -1,0 +1,82 @@
+{% extends 'index.html' %}
+<!-- START HERE -->
+{% block content %}
+  <!-- CONTENT -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+    <p class="mb-4">List of subscribers.</p>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Subscribers</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Join date</th>
+                <th>Admin right</th>
+              </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <th>Status</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Join date</th>
+              <th>Admin right</th>
+            </tr>
+            </tfoot>
+            <tbody>
+              {% for subscriber in subscribers %}
+                <tr>
+                  <td>
+                    {% if subscriber.is_active_status %}
+                      <span class="badge badge-success">Active <i class="fas fa-check"></i></span>
+                    {% else %}
+                      <span class="badge badge-warning">Inactive <i class="fas fa-bed bg-warning"></i></span>
+                    {% endif %}
+                    <a href="{{url_for('subs.pair_history', public_id = subscriber.public_id)}}" class="badge badge-info">
+                      History <i class="fas fa-history"></i>
+                    </a>
+                  </td>
+                  <td>{{subscriber.first_name}} {{subscriber.last_name}}</td>
+                  <td>{{subscriber.email}}</td>
+                  <td>{{subscriber.join_date.strftime("%d-%b-%Y")}}</td>
+                  <td>
+                    <a href="{{url_for('adm.promote', public_id = subscriber.public_id)}}" class="btn btn-sm btn-info">
+                      <i class="fas fa-arrow-up"></i>
+                    </a>
+                    {% if subscriber.is_active_status %}
+                      <a href="{{url_for('adm.activate', public_id = subscriber.public_id)}}" class="btn btn-sm btn-warning">
+                        <i class="fas fa-pause"></i>
+                      </a>
+                    {% else %}
+                      <a href="{{url_for('adm.activate', public_id = subscriber.public_id)}}" class="btn btn-sm btn-info">
+                        <i class="fas fa-play"></i>
+                      </a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+{% endblock content %}
+<!-- SCRIPTS -->
+{% block script %}
+  <!-- Page level plugins -->
+  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <!-- Page level custom scripts -->
+  <script src="static/js/demo/datatables-demo.js"></script>
+{% endblock script %}

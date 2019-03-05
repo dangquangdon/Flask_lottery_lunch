@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+<!-- ------ -->
+{% block content %}
+  <!-- START HERE -->
+  <div class="container-fluid py-3">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Pair history of {{subscriber.first_name}}</h1>
+    <p class="mb-4">List of subscribers.</p>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Subscribers</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Paired date</th>
+              </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <th>Status</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Paired date</th>
+            </tr>
+            </tfoot>
+            <tbody>
+              {% for pair in paired_with %}
+                <tr>
+                  <td>
+                    {% if pair['pair'].is_active_status %}
+                      <span class="badge badge-success">Active <i class="fas fa-check"></i></span>
+                    {% else %}
+                      <span class="badge badge-warning">Inactive <i class="fas fa-bed bg-warning"></i></span>
+                    {% endif %}
+                    <a href="{{url_for('subs.pair_history', public_id = pair['pair'].public_id)}}" class="badge badge-info">
+                      History <i class="fas fa-history"></i>
+                    </a>
+                  </td>
+                  <td>{{pair['pair'].first_name}} {{pair['pair'].last_name}}</td>
+                  <td>{{pair['pair'].email}}</td>
+                  <td>{{pair['date']}}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

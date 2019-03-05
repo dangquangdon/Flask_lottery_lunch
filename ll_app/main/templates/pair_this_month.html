@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+<!-- ---------- -->
+{% block content %}
+  <div class="container-fluid py-3">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-1 text-gray-800">This Month Pairs</h1>
+    <p class="mb-4">This month pair</p>
+    {% if save %}
+      <form method='POST' action="{{url_for('subs.pairing')}}" class="mb-4">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    {% else %}
+    {% endif %}
+    <!-- Content Row -->
+    <div class="row">
+      <!-- Third Column -->
+      <div class="col">
+        <!-- Grayscale Utilities -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{{this_month}}</h6>
+          </div>
+          <div class="card-body">
+            {% for pair in result %}
+              <div class="row">
+                {% for each in pair %}
+                  <div class="col-md-6">
+                    <div class="p-3 bg-gray-100">{{each.email}}</div>
+                  </div>
+                {% endfor %}
+              </div>
+              <hr>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
